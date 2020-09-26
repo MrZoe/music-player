@@ -1,0 +1,33 @@
+@import url('https://fonts.font.im/css?family=Cinzel');
+@import url('https://fonts.font.im/css?family=Ropa+Sans');
+@import url('https://fonts.font.im/css?family=Open+Sans');
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100%;
+  font-family: 'Cinzel', serif;
+}
+
+:root {
+  --background-light-color: #f2f2f2;
+  --background-gray-color: #e4dfda;
+  --background-dark-color: #c4b4a6;
+  --background-drop-color: #fefcf2;
+  --text-primary-color: #d98977;
+  --text-second-color: #f2f2f2;
+  --text-middle-color: #c2948f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-light-color);
+}
