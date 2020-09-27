@@ -1,53 +1,58 @@
 <template>
     <div id="menu-container">
-        <div id="menu" ref="musicListMenu">
-            <div id="head">
-                <i class="fa fa-list-ul" aria-hidden="true"></i>
-                <h5 id="menu-title">
-                    当前播放: <span id="menu-point">13</span>
-                </h5>
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-            <div id="list">
-                <div class="music-item">
-                    <div class="music-info">
-                        <h5>Awake</h5>
-                        <span class="info-bar"> - </span>
-                        <h6 class="author">AshenOne</h6>
-                    </div>
+        <transition name="slide-fade">
+            <div id="menu" v-if="$store.getters['playList/getPlayListStatus']">
+                <div id="head">
+                    <i class="fa fa-list-ul" aria-hidden="true"></i>
+                    <h5 id="menu-title">
+                        当前播放: <span id="menu-point">13</span>
+                    </h5>
                     <i
-                        class="fa fa-times item-close-btn"
+                        @click="onClosed"
+                        class="fa fa-times list-btn"
                         aria-hidden="true"
                     ></i>
                 </div>
-                <div class="music-item">
-                    <div class="music-info">
-                        <h5>生之爱</h5>
-                        <span class="info-bar"> - </span>
-                        <h6 class="author">嘎调</h6>
+                <div id="list">
+                    <div class="music-item">
+                        <div class="music-info">
+                            <h5>Awake</h5>
+                            <span class="info-bar"> - </span>
+                            <h6 class="author">AshenOne</h6>
+                        </div>
+                        <div class="item-close">
+                            <i
+                                class="fa fa-trash-o item-close-btn"
+                                aria-hidden="true"
+                            ></i>
+                        </div>
                     </div>
-                    <i
-                        class="fa fa-times item-close-btn"
-                        aria-hidden="true"
-                    ></i>
+                    <div class="music-item">
+                        <div class="music-info">
+                            <h5>生之爱</h5>
+                            <span class="info-bar"> - </span>
+                            <h6 class="author">嘎调</h6>
+                        </div>
+                        <div class="item-close">
+                            <i
+                                class="fa fa-trash-o item-close-btn"
+                                aria-hidden="true"
+                            ></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="music-item">
-                    <div class="music-info">
-                        <h5>Fantasia in D minor, K.397:Andante</h5>
-                        <span class="info-bar"> - </span>
-                        <h6 class="author">AshenOne</h6>
-                    </div>
-                    <i
-                        class="fa fa-times item-close-btn"
-                        aria-hidden="true"
-                    ></i>
+                <div id="close">
+                    <button id="close-menu-btn" @click="onClosed">关闭</button>
                 </div>
             </div>
-            <div id="close">
-                <button id="close-menu-btn" @click="onClosed">关闭</button>
-            </div>
-        </div>
-        <div class="background-drop" ref="backgroundDrop"></div>
+        </transition>
+        <transition name="slide-fade">
+            <div
+                v-if="$store.getters['playList/getPlayListStatus']"
+                class="background-drop"
+                ref="backgroundDrop"
+            ></div>
+        </transition>
     </div>
 </template>
 
@@ -56,33 +61,11 @@ export default {
     data() {
         return {}
     },
-    mounted() {
-        this.initMusicList()
-    },
+    mounted() {},
     methods: {
         onClosed() {
-            console.log('onClosed!')
-            const backgroundDrop = this.$refs.backgroundDrop
-            const menu = this.$refs.musicListMenu
-            if (menu !== undefined) {
-                // console.log(backgroundDrop, menu)
-                const element = {
-                    backgroundDrop,
-                    menu,
-                }
-                this.$store.commit('hide', element)
-            }
-        },
-        initMusicList() {
-            this.onClosed()
-        },
-    },
-    props: {
-        isShow: {
-            type: Boolean,
-            default: () => {
-                return false
-            },
+            const store = this.$store
+            store.commit('playList/hide')
         },
     },
 }
@@ -104,7 +87,7 @@ export default {
     padding: 20px;
     color: var(--text-primary-color);
     font-size: 30px;
-    transition: all 0.7s ease-out;
+    transition: all 0.4s ease-out;
 }
 
 .background-drop {
@@ -112,12 +95,19 @@ export default {
     height: 100%;
     width: 100%;
     top: 0;
-    transform: translateX(-20px);
+    left: 0;
     z-index: 10;
     opacity: 0.7;
     background-color: #000;
-    transition: all 0.7s ease-out;
+    transition: all 0.4s ease-out;
 }
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+    transform: translateY(100%);
+    opacity: 0;
+}
+
 h5,
 h6 {
     margin: 0;
@@ -130,6 +120,10 @@ h6 {
     cursor: default;
 }
 
+.list-btn {
+    cursor: pointer;
+}
+
 #list {
     height: 70%;
     overflow: hidden;
@@ -140,10 +134,11 @@ h6 {
     justify-content: space-between;
     font-size: 16px;
     border-bottom: 1px solid var(--background-gray-color);
-    padding: 5px 10px;
     cursor: pointer;
-    transition: all 0.3s ease-in;
+    transition: all 0.2s ease-in;
     border-radius: 5px;
+    line-height: 48px;
+    padding-left: 10px;
 }
 
 .music-item:hover {
@@ -154,7 +149,6 @@ h6 {
 .music-info {
     display: flex;
     justify-content: flex-start;
-    line-height: 48px;
 }
 
 .music-info > h5 {
@@ -179,16 +173,15 @@ h6 {
 .item-close-btn {
     font-size: 20px;
     cursor: pointer;
-    transition: all 0.3s ease-in;
     padding: 0 10px;
-    line-height: 40px;
+    line-height: 20px;
+    transition: all 0.3s ease-in;
+    border-left: 1px solid var(--background-dark-color);
 }
 
-.item-close-btn:hover {
-    transform: rotateZ(180deg);
-    border-right: 2px solid;
+.item-close:hover .item-close-btn {
+    border-left: 1px solid #fff;
 }
-
 #close {
     height: 15%;
     display: flex;

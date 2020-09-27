@@ -1,9 +1,9 @@
 <template>
     <div id="container">
         <Header></Header>
-        <Main></Main>
+        <Main :isPlay="isPlay"></Main>
         <Footer></Footer>
-        <Menu :isShow="$store.state.menu.isShow"></Menu>
+        <Menu></Menu>
     </div>
 </template>
 
@@ -13,6 +13,17 @@ import Main from './main/main'
 import Footer from './footer/footer'
 import Menu from './footer/menu'
 export default {
+    data() {
+        return {
+            isPlay: false,
+            per: 85,
+        }
+    },
+    created() {
+        const getters = this.$store.getters
+        const isPlay = getters['audio/getAudioPlayStatus']
+        this.isPlay = isPlay
+    },
     components: {
         Header,
         Main,

@@ -3,44 +3,127 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-    state: {
+
+const audio = {
+    namespaced: true,
+    state: () => ({
         audio: null,
         isPlay: false,
-        menu: {
-            isShow: false,
-        }
-    },
+        progress: '0%',
+        bar: null,
+        currentTime: '00:00',
+        totalTime: '00:00',
+        volume: 0.2,
+        barOffSetWidth: null,
+    }),
     mutations: {
         init(state, audio) {
             state.audio = audio
         },
-        changeIsPlayStatus(state, status) {
-            state.isPlay = status
-        },
-        show(state, element) {
-            if (element !== undefined) {
-                // console.log(backgroundDrop, menu)
-                element.backgroundDrop.style.opacity = '1'
-                element.backgroundDrop.style.transform = 'translate(-20px,-500px)'
-                element.menu.style.transform = 'translateY(-100%)'
-                element.menu.style.opacity = '1'
-                state.menu.isShow = true
+        audioControlProgram(state) {
+            console.log('onPlay!')
+            const audio = state.audio
+            const isPlay = state.isPlay
+            if (isPlay === false) {
+                state.isPlay = true
+                audio.play()
+            } else {
+                state.isPlay = false
+                audio.pause()
             }
         },
-        hide(state, element) {
-            if (element !== undefined) {
-                // console.log(backgroundDrop, menu)
-                element.backgroundDrop.style.opacity = '0'
-                element.backgroundDrop.style.transform = 'translate(-20px,500px)'
-                element.menu.style.transform = 'translateY(100%)'
-                element.menu.style.opacity = '0'
-                state.menu.isShow = false
-            }
+        changeAudioProgress(state, currentTime) {
+            const currentPercentage = `${currentTime}%`
+            state.progress = currentPercentage
+            // console.log(`当前播放进度: ${state.progress}`)
+        },
+        initBar(state, element) {
+            state.bar = element
+        },
+        changeTime(state, timeObj) {
+            state.currentTime = timeObj.currentTime
+            state.totalTime = timeObj.totalTime
+        },
+        changeAudioVolume(state, volume) {
+            state.volume = volume
+            console.log('change')
         },
     },
-    actions: {
+    getters: {
+        getAudioElement(state) {
+            return state.audio
+        },
+        getAudioPlayStatus(state) {
+            console.log(`getStatus ${state.isPlay}`)
+            return state.isPlay
+        },
+        getAudioCurrentPercentage(state) {
+            return state.progress
+        },
+        getAudioCurrentTime(state) {
+            return state.currentTime
+        },
+        getAudioTotalTime(state) {
+            return state.totalTime
+        },
+        getAudioVolume(state) {
+            return state.volume
+        }
+    }
+}
+
+const playList = {
+    namespaced: true,
+    state: () => ({
+        isShow: false,
+    }),
+    mutations: {
+        show(state) {
+            state.isShow = true
+            console.log(state.isShow)
+        },
+        hide(state) {
+            state.isShow = false
+            console.log(state.isShow)
+        },
     },
+    getters: {
+        getPlayListStatus(state) {
+            const isShow = state.isShow
+            console.log(isShow)
+            return isShow
+        }
+    }
+}
+
+const music = {
+    namespaced: true,
+    state: () => ({
+        data: {
+            coverImgSrc: null,
+            musicSrc: null,
+            musicName: null,
+            singer: null,
+        },
+    }),
+    mutations: {
+        initMusic(state, music) {
+            state.data = music
+        }
+    },
+    getters: {
+        getMusicInStore(state) {
+            return state.data
+        }
+    }
+}
+
+const store = new Vuex.Store({
     modules: {
+        audio,
+        playList,
+        music,
     }
 })
+
+export default store
