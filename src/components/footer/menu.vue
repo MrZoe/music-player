@@ -5,7 +5,7 @@
                 <div id="head">
                     <i class="fa fa-list-ul" aria-hidden="true"></i>
                     <h5 id="menu-title">
-                        当前播放: <span id="menu-point">13</span>
+                        当前播放: <span id="menu-point">2</span>
                     </h5>
                     <i
                         @click="onClosed"
@@ -18,7 +18,7 @@
                         <div class="music-info">
                             <h5>Awake</h5>
                             <span class="info-bar"> - </span>
-                            <h6 class="author">AshenOne</h6>
+                            <h6 class="author">Lena Raine</h6>
                         </div>
                         <div class="item-close">
                             <i

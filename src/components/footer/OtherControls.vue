@@ -1,7 +1,6 @@
 <template>
     <div id="list">
         <i class="fa fa-heart-o console-btn" aria-hidden="true"></i>
-        <i class="fa fa-heart console-btn" aria-hidden="true"></i>
         <i class="fa fa-share console-btn" aria-hidden="true"></i>
         <i
             @click="openMusicList"
