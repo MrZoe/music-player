@@ -1,5 +1,4 @@
 @import url('https://fonts.font.im/css?family=Cinzel');
-@import url('https://fonts.font.im/css?family=Ropa+Sans');
 @import url('https://fonts.font.im/css?family=Open+Sans');
 
 html,
@@ -9,14 +8,15 @@ body {
   width: 100vw;
   height: 100%;
   font-family: 'Cinzel', serif;
+  -webkit-touch-callout: none;
 }
 
 :root {
   --background-light-color: #f2f2f2;
-  --background-gray-color: #e4dfda;
+  --background-gray-color: #d3cfcb;
   --background-dark-color: #c4b4a6;
   --background-drop-color: #fefcf2;
-  --text-primary-color: #d98977;
+  --text-primary-color: #da806c;
   --text-second-color: #f2f2f2;
   --text-middle-color: #c2948f;
 }
@@ -30,4 +30,5 @@ body {
   justify-content: center;
   align-items: center;
   background-color: var(--background-light-color);
+  color: var(--text-primary-color);
 }

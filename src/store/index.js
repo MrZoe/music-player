@@ -3,117 +3,133 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-
 const audio = {
     namespaced: true,
     state: () => ({
-        audio: null,
-        isPlay: false,
-        progress: '0%',
-        bar: null,
-        currentTime: '00:00',
-        totalTime: '00:00',
-        volume: 0.2,
-        barOffSetWidth: null,
+        musicList: {},
+        music: {},
+        timeObj: {
+            currentTime: '00:00',
+            duration: '00:00',
+        },
+        audioElement: null,
+        isPaused: true,
+        playedScale: 0,
+        volume: 0,
+        duration: 0,
+        timeAfterChange: 0,
     }),
     mutations: {
-        init(state, audio) {
-            state.audio = audio
+        initMusicList(state, musicList) {
+            state.musicList = musicList
+            state.music = musicList[0]
         },
-        audioControlProgram(state) {
-            console.log('onPlay!')
-            const audio = state.audio
-            const isPlay = state.isPlay
-            if (isPlay === false) {
-                state.isPlay = true
-                audio.play()
-            } else {
-                state.isPlay = false
-                audio.pause()
+        commitAudioElement(state, element) {
+            state.audioElement = element
+        },
+        updateAudioPausedStatus(state, status) {
+            state.isPaused = status
+        },
+        initAudioDuration(state, duration) {
+            state.duration = duration
+        },
+        next(state) {
+            const list = state.musicList
+            const music = state.music
+            // 下一首, 获取当前播放的歌曲的 id, 下一首的 id 是 id+1
+            let id = music.id + 1
+            // 处理最后一首的情况, 使歌单循环播放
+            if (id === list.length) {
+                id = 0
             }
+            const newMusic = list[id]
+            state.music = newMusic
         },
-        changeAudioProgress(state, currentTime) {
-            const currentPercentage = `${currentTime}%`
-            state.progress = currentPercentage
-            // console.log(`当前播放进度: ${state.progress}`)
+        previous(state) {
+            const list = state.musicList
+            const music = state.music
+            // 下一首, 获取当前播放的歌曲的 id, 下一首的 id 是 id+1
+            let id = music.id - 1
+            // 处理 第一首的情况, 使歌单循环播放
+            if (id < 0) {
+                console.log(id)
+                id = list.length - 1
+            }
+            const newMusic = list[id]
+            state.music = newMusic
         },
-        initBar(state, element) {
-            state.bar = element
+        updateTime(state, timeObj) {
+            state.timeObj = timeObj
         },
-        changeTime(state, timeObj) {
-            state.currentTime = timeObj.currentTime
-            state.totalTime = timeObj.totalTime
+        updatePlayedScale(state, scale) {
+            state.playedScale = scale
         },
-        changeAudioVolume(state, volume) {
-            state.volume = volume
-            console.log('change')
+        changeAudioCurrentTime(state, scale) {
+            state.timeAfterChange = state.duration * scale
         },
+        changeAudioVolume(state, scale) {
+            state.volume = 1 * scale
+        },
+        selectMusic(state, music) {
+            state.music = music
+        },
+        removeMusic(state, id) {
+            const list = state.musicList
+            console.log(id)
+            const newList = list.filter(e => {
+                return e.id !== id
+            })
+            state.musicList = newList
+
+        }
+
+
     },
     getters: {
-        getAudioElement(state) {
-            return state.audio
+        getCurrentMusicData(state) {
+            return state.music
         },
-        getAudioPlayStatus(state) {
-            console.log(`getStatus ${state.isPlay}`)
-            return state.isPlay
+        getMusicListData(state) {
+            return state.musicList
         },
-        getAudioCurrentPercentage(state) {
-            return state.progress
+        getAudioIsPaused(state) {
+            return state.isPaused
         },
-        getAudioCurrentTime(state) {
-            return state.currentTime
+        getAudioTimeObj(state) {
+            const timeObj = state.timeObj
+            if (timeObj.duration.includes('0') === false) {
+                timeObj.duration = '00:00'
+            }
+            return timeObj
         },
-        getAudioTotalTime(state) {
-            return state.totalTime
+        getAudioPlayedScale(state) {
+            return state.playedScale
         },
-        getAudioVolume(state) {
+        getTimeAfterChange(state) {
+            return state.timeAfterChange
+        },
+        getVolume(state) {
             return state.volume
         }
+
     }
 }
 
 const playList = {
-    namespaced: true,
+    namespaced: 'playList',
     state: () => ({
         isShow: false,
     }),
-    mutations: {
-        show(state) {
-            state.isShow = true
-            console.log(state.isShow)
-        },
-        hide(state) {
-            state.isShow = false
-            console.log(state.isShow)
-        },
-    },
-    getters: {
-        getPlayListStatus(state) {
-            const isShow = state.isShow
-            console.log(isShow)
-            return isShow
-        }
-    }
-}
 
-const music = {
-    namespaced: true,
-    state: () => ({
-        data: {
-            coverImgSrc: null,
-            musicSrc: null,
-            musicName: null,
-            singer: null,
-        },
-    }),
     mutations: {
-        initMusic(state, music) {
-            state.data = music
+        updateIsShowStatus(state, status) {
+            console.log(`update!:${status}`)
+            state.isShow = status
         }
     },
     getters: {
-        getMusicInStore(state) {
-            return state.data
+        getPlayListIsShow(state) {
+            return state.isShow
         }
     }
 }
@@ -122,7 +138,6 @@ const store = new Vuex.Store({
     modules: {
         audio,
         playList,
-        music,
     }
 })
 
