@@ -109,6 +109,7 @@ export default {
 }
 
 .dot {
+    cursor: pointer;
     position: absolute;
     top: 0;
     transform: translate(-10%, -30%);

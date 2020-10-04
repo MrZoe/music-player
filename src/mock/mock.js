@@ -29,7 +29,7 @@ const musicList = [
     },
     {
         id: 3,
-        title: 'Beethoven: Piano Sonata No.14, Op.27 No.2:1',
+        title: 'Piano Sonata No.14, Op.27 No.2:1',
         author: 'Ludwig van Beethoven',
         album: '世界名曲',
         type: 100,

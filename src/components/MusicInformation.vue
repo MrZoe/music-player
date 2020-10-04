@@ -2,7 +2,7 @@
     <div id="information-wrapper">
         <div class="information-head">
             <span id="info-title"> {{ music.title }}</span>
-            <span class="info-spacing">——</span>
+            <span class="info-spacing">-</span>
             <span id="info-author"> {{ music.author }} </span>
         </div>
         <div class="information-main">
@@ -15,9 +15,8 @@
             />
         </div>
         <div class="information-footer">
-            <p class="intro-title">{{ music.album }}</p>
             <p class="intro-message">
-                {{ music.type === 100 ? '纯音乐' : '摇滚乐' }}
+                {{ music.type === 100 ? '纯音乐，请欣赏' : '摇滚乐' }}
             </p>
         </div>
     </div>
@@ -49,9 +48,6 @@ export default {
     height: 50px;
     width: 100%;
     vertical-align: middle;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;

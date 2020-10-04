@@ -20,7 +20,7 @@ export default {
 
 <style scoped>
 #app {
-    height: 800px;
+    height: 900px;
     width: 500px;
     background-color: var(--background-gray-color);
     padding: 40px;

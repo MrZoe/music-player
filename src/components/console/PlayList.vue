@@ -1,7 +1,7 @@
 <template>
     <div class="console-item-wrapper">
-        <i class="fa fa-heart-o"></i>
-        <i @click="openPlayList" class="fa fa-list"></i>
+        <i class="fa fa-heart-o list-btn"></i>
+        <i @click="openPlayList" class="fa fa-list list-btn"></i>
         <transition name="slide-fade">
             <div v-if="isShow" id="menu-wrapper">
                 <div id="menu-play-list">
@@ -11,7 +11,10 @@
                             aria-hidden="true"
                         ></i>
                         <h3 id="header-title">
-                            当前播放: <span id="title-point">2</span>
+                            当前播放:
+                            <span id="title-point">
+                                {{ musicList.length }}
+                            </span>
                         </h3>
                         <i
                             @click="closePlayListEvent"
@@ -128,7 +131,14 @@ export default {
     align-items: center;
 }
 .list-btn {
-    font-size: 30px;
+    font-size: 25px;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+}
+
+.list-btn:hover {
+    transform: rotate(360deg) scale(1.1);
+    text-shadow: 2px 2px 5px rgb(110, 110, 110);
 }
 
 #list-content {
@@ -154,7 +164,7 @@ export default {
 .music-info {
     display: flex;
     justify-content: flex-start;
-    width: 90%;
+    width: 85%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -206,6 +216,8 @@ export default {
     font-size: 14px;
     color: var(--text-primary-color);
     bottom: 0;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 #menu-close-button:focus {

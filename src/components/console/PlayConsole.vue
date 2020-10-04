@@ -1,17 +1,17 @@
 <template>
     <div class="console-item-wrapper">
-        <i @click="previousEvent" class="fa fa-step-backward"></i>
+        <i @click="previousEvent" class="fa fa-step-backward console-btn"></i>
         <i
             @click="togglePlayStatusEvent"
             @ended="nextEvent"
             id="play-btn"
             class="fa"
             :class="{
-                'fa-play-circle': isPaused,
-                'fa-pause-circle': !isPaused,
+                'fa-play': isPaused,
+                'fa-pause': !isPaused,
             }"
         ></i>
-        <i @click="nextEvent" class="fa fa-step-forward"></i
+        <i @click="nextEvent" class="fa fa-step-forward console-btn"></i
         ><audio
             @play="playEvent"
             @pause="pauseEvent"
@@ -139,11 +139,36 @@ export default {
     font-size: 40px;
     display: flex;
     justify-content: space-between;
-    line-height: 60px;
     align-items: center;
 }
 
 #play-btn {
-    font-size: 70px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    width: 70px;
+    font-size: 30px;
+    box-shadow: -2px -2px 5px rgba(255, 255, 255, 0.2),
+        2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 100%;
+    transition: all 0.1s ease-in-out;
+}
+#play-btn:active {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2), 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.fa-play::before {
+    transform: translateX(3px);
+}
+
+.console-btn {
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+.console-btn:active {
+    transform: scale(1.15);
+    text-shadow: 2px 2px 3px #969696;
 }
 </style>

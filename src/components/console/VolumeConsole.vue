@@ -1,11 +1,11 @@
 <template>
     <div class="console-item-wrapper">
-        <i class="fa fa-volume-off"></i>
+        <i @click="muteEvent" class="fa fa-volume-off volume-btn"></i>
         <Progress
             :scale="volume"
             :progressBarClass="progressBarClass"
         ></Progress>
-        <i class="fa fa-volume-up"></i>
+        <i @click="maxEvent" class="fa fa-volume-up volume-btn"></i>
     </div>
 </template>
 
@@ -27,6 +27,16 @@ export default {
     components: {
         Progress,
     },
+    methods: {
+        muteEvent() {
+            const store = this.$store
+            store.commit('audio/changeAudioVolume', 0)
+        },
+        maxEvent() {
+            const store = this.$store
+            store.commit('audio/changeAudioVolume', 1)
+        },
+    },
 }
 </script>
 
@@ -41,5 +51,13 @@ export default {
 
 .console-item-wrapper > div {
     width: 80% !important;
+}
+.volume-btn {
+    cursor: pointer;
+    transition: all 0.1s ease-in;
+}
+
+.volume-btn:active {
+    transform: scale(1.15);
 }
 </style>
