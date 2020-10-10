@@ -11,12 +11,14 @@
                 'fa-pause': !isPaused,
             }"
         ></i>
-        <i @click="nextEvent" class="fa fa-step-forward console-btn"></i
-        ><audio
+        <i @click="nextEvent" class="fa fa-step-forward console-btn"></i>
+        <!-- loadStart, loadedMetaData, canPlay 会在 audio 标签加载的过程中触发 -->
+        <audio
             @play="playEvent"
             @pause="pauseEvent"
             @timeupdate="updateAudioProgressEvent"
             @ended="nextEvent"
+            @canplay="canPlayEvent"
             ref="audio"
             :src="music.musicSrc"
             autoplay
@@ -124,6 +126,10 @@ export default {
             }
             result = `${min}:${sec}`
             return result
+        },
+        canPlayEvent() {
+            const store = this.$store
+            store.commit('audio/updateCanPlay', true)
         },
     },
     mounted() {

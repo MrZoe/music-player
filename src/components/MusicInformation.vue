@@ -7,7 +7,7 @@
         </div>
         <div class="information-main">
             <img
-                id="info-banner"
+                id="info-cover"
                 :src="music.coverSrc"
                 :class="{
                     paused: isPaused,
@@ -74,13 +74,18 @@ export default {
     margin: 10px 0 20px 0;
 }
 
-#info-banner {
-    height: 80%;
-    width: 80%;
+#info-cover {
+    width: 70%;
     border-radius: 100%;
     box-shadow: 0 0 15px #454545;
     margin: 20px 0;
     animation: rotate 10s linear infinite;
+}
+
+@media screen and (max-width: 500px) {
+    #info-cover {
+        width: 80%;
+    }
 }
 
 @keyframes rotate {

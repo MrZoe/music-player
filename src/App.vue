@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <Loading></Loading>
         <MusicInformation></MusicInformation>
         <MusicConsole></MusicConsole>
         <!-- <div id="debug"></div>  -->
@@ -9,21 +10,26 @@
 <script>
 import MusicInformation from './components/MusicInformation'
 import MusicConsole from './components/MusicConsole'
+// loading 组件
+import Loading from './components/Loaidng'
 export default {
     name: 'App',
     components: {
         MusicInformation,
         MusicConsole,
+        Loading,
     },
 }
 </script>
 
 <style scoped>
 #app {
-    height: 900px;
-    width: 500px;
+    position: relative;
+    height: 95vh;
+    width: 450px;
     background-color: var(--background-gray-color);
-    padding: 40px;
+    padding: 30px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 #debug {
@@ -38,6 +44,7 @@ export default {
     #app {
         height: 100vh;
         width: 100vw;
+        padding: 40px;
     }
 }
 </style>

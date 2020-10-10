@@ -18,6 +18,7 @@ const audio = {
         volume: 0,
         duration: 0,
         timeAfterChange: 0,
+        canPlay: false,
     }),
     mutations: {
         initMusicList(state, musicList) {
@@ -81,6 +82,9 @@ const audio = {
             })
             state.musicList = newList
 
+        },
+        updateCanPlay(state, status) {
+            state.canPlay = status
         }
 
 
@@ -110,6 +114,9 @@ const audio = {
         },
         getVolume(state) {
             return state.volume
+        },
+        getAudioCanPlayStatus(state) {
+            return state.canPlay
         }
 
     }
